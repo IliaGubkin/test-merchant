@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="referrer" content="no-referrer">
+    <meta name="referrer" content="no-referrer" />
     <link rel="stylesheet" href="./css/normalize.css" />
     <link rel="stylesheet" href="./css/style.css" />
     <link rel="stylesheet" href="./css/media.style.css" />
@@ -60,16 +60,28 @@
       <section class="main-info section_indent_m">
         <div class="container" id="ecoPayButton">
           <div class="main-info__wrapper standart-border">
-            <h1 class="main-info__title">Проектные решения любой сложности</h1>
-            <p class="main-info__description">
-              Есть над чем задуматься: базовые сценарии поведения пользователей
-              и&nbsp;по&nbsp;сей день остаются уделом проектантов
-            </p>
-            <div id="cardsContainer" class="cardsContainer"></div>
-            <button id="addCardBtn" class="btn btn_size_l">
-              Добавить карту
-            </button>
-            <div id="iframeContainer" class="iframeContainer"></div>
+            <div>
+              <h1 class="main-info__title">
+                Проектные решения любой сложности
+              </h1>
+              <p class="main-info__description">
+                Есть над чем задуматься: базовые сценарии поведения
+                пользователей и&nbsp;по&nbsp;сей день остаются уделом
+                проектантов
+              </p>
+              <div id="cardsContainer" class="cardsContainer"></div>
+              <button id="addCardBtn" class="btn btn_size_l">
+                Наши проекты
+              </button>
+            </div>
+            <div class="footer__column" id="payment">
+              <h2
+                class="section-title section-title_indent_m footer__title main-info__title"
+              >
+                Способы оплаты
+              </h2>
+              <div id="ecoPayCardsList"></div>
+            </div>
           </div>
         </div>
       </section>
@@ -193,7 +205,7 @@
         </div>
       </section>
     </main>
-   
+
     <footer id="footer" class="footer">
       <div class="container footer__container flex">
         <div class="footer__column footer__column_left">
@@ -202,8 +214,8 @@
           </a>
           <ul class="footer__list">
             <li><a class="footer__link" href="#payment">Способы оплаты</a></li>
-            <li><a class="footer__link" href="#">О нас</a></li>
-            <li><a class="footer__link" href="#">Проекты</a></li>
+            <li><a class="footer__link" href="#about">О нас</a></li>
+            <li><a class="footer__link" href="#stages">Проекты</a></li>
             <li><a class="footer__link" href="#">Отзывы</a></li>
             <li><a class="footer__link" href="#">Договор оферты</a></li>
             <li><a class="footer__link" href="#">Договор подряда</a></li>
@@ -248,12 +260,6 @@
             </a>
           </div>
         </div>
-        <div class="footer__column" id="payment">
-          <h2 class="section-title section-title_indent_m footer__title">
-            Способы оплаты
-          </h2>
-            <div id="ecoPayCardsList"></div>
-        </div>
         <div class="footer__column footer__column_right">
           <p class="footer__description">
             Высокий уровень вовлечения представителей целевой аудитории является
@@ -266,7 +272,7 @@
         </div>
       </div>
     </footer>
-     <script>
+    <script>
       const cards = [
         {
           maskPan: "•••• 0199",
@@ -283,12 +289,21 @@
           iconPath: "https://{domain}/...",
         },
       ];
-      
+
+      const successUrl =
+        window.location.origin +
+        window.location.pathname.replace(/[^\/]*$/, "") +
+        "success.html";
+      const errorUrl =
+        window.location.origin +
+        window.location.pathname.replace(/[^\/]*$/, "") +
+        "error.html";
+
       const ecoPay = new window.EcoPaySDK({
         merchId: "3af087fe-5a16-4db4-945c-cf4478fdfb66",
         mode: "popup",
-        backUrlSuccess: "https://yandex.ru/maps/",
-        backUrlError: "https://www.google.com/"
+        backUrlSuccess: successUrl,
+        backUrlError: errorUrl,
       });
 
       ecoPay.renderCardsList("#ecoPayCardsList", cards);
