@@ -84,6 +84,7 @@
 
   /* main-info */
   .main-info__wrapper {
+    display: flex;
     padding: 160px 77px;
     display: flex;
   }
