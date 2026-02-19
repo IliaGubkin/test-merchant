@@ -312,7 +312,9 @@
         backUrlSuccess: successUrl,
       });
 
-      ecoPay.renderCardsList("#ecoPayCardsList", cards);
+      // ecoPay.renderCardsList("#ecoPayCardsList", cards);
+      // Пример вызова удаления карты
+      ecoPay.handleDeleteButton(cards[0].gidCardId)
     </script>
   </body>
 </html>
