@@ -304,11 +304,11 @@ const cards = [
 let ecoPayWindow;
 
 function openEcoPay() {
-  // 1. Открываем окно с минимальными параметрами (только публичные данные)
+  // 1. Открываем окно с минимальными параметрами
   const url = 'https://ecopay-test.gorpay.online?' + new URLSearchParams({
     merchId: '3af087fe-5a16-4db4-945c-cf4478fdfb66',
     action: 'addCard',
-    mode: 'popup', // или redirect, newTab
+    mode: 'popup',
     backUrlSuccess: successUrl,
     backUrlError: errorUrl
   });
@@ -322,23 +322,37 @@ function openEcoPay() {
 function waitForEcoPayReady() {
   // Слушаем сообщение от EcoPay о готовности
   window.addEventListener('message', function onMessage(event) {
+    // Проверяем, что сообщение от нашего фронта
     if (event.origin !== 'https://ecopay-test.gorpay.online') return;
     
     if (event.data.type === 'ECO_PAY_READY') {
+      console.log('✅ EcoPay готов, отправляем карты');
+      
       // Убираем слушатель
       window.removeEventListener('message', onMessage);
       
       // Отправляем список карт
-      ecoPayWindow.postMessage({
-        type: 'CARDS_LIST',
-        cards: cards,
-        requestId: event.data.requestId // для подтверждения
-      }, 'https://ecopay-test.gorpay.online');
-      
-      console.log('✅ Список карт отправлен в EcoPay');
+      if (ecoPayWindow) {
+        ecoPayWindow.postMessage({
+          type: 'CARDS_LIST',
+          cards: cards,
+          requestId: event.data.requestId
+        }, 'https://ecopay-test.gorpay.online');
+        
+        console.log('✅ Список карт отправлен в EcoPay');
+      }
     }
   });
 }
+
+// Слушаем подтверждение от EcoPay
+window.addEventListener('message', (event) => {
+  if (event.origin !== 'https://ecopay-test.gorpay.online') return;
+  
+  if (event.data.type === 'CARDS_RECEIVED') {
+    console.log('✅ EcoPay подтвердил получение карт');
+  }
+});
 </script>
   </body>
 </html>
