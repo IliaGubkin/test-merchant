@@ -321,11 +321,9 @@ function openEcoPay() {
 
 function waitForEcoPayReady() {
   // Слушаем сообщение от EcoPay о готовности
-  console.log('Ждем сообщение от ecopay о готовности')
   window.addEventListener('message', function onMessage(event) {
-    console.log('Получили сообщение event.origin', event.origin, 'event.data.type', event.data.type)
     // Проверяем, что сообщение от нашего фронта
-    // if (event.origin !== 'https://ecopay-test.gorpay.online') return;
+    if (event.origin !== 'https://ecopay-test.gorpay.online') return;
     
     if (event.data.type === 'ECO_PAY_READY') {
       console.log('✅ EcoPay готов, отправляем карты');
