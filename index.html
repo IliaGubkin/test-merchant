@@ -70,8 +70,8 @@
                 проектантов
               </p>
               <div id="cardsContainer" class="cardsContainer"></div>
-              <button id="addCardBtn" class="btn btn_size_l">
-                Наши проекты
+              <button id="addCardBtn" class="btn btn_size_l" onclick="openEcoPay()">
+                Открыть экопей
               </button>
             </div>
             <div class="footer__column" id="payment">
@@ -273,46 +273,72 @@
       </div>
     </footer>
     <script>
-       const cards = [
-        {
-          maskPan: "•••• 0199",
-          paySystem: "VISA",
-          bank: "GPB",
-          gidCardId: "883f3c9b-4444-5555-7777-3e2c75c29999",
-          iconPath: "https://{domain}/...",
-        },
-        {
-          maskPan: "•••• 1234",
-          paySystem: "MIR",
-          bank: "SBERBANK",
-          gidCardId: "773f3c9b-4444-5555-7777-3e2c75c29999",
-          iconPath: "https://{domain}/...",
-        },
-        {
-          maskPan: "•••• 3212",
-          paySystem: "AMEX",
-          bank: "SBERBANK",
-          gidCardId: "5554IKn-4444-5555-7777-asdSD23r43",
-          iconPath: "https://{domain}/...",
-        },
-      ];
+const successUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, "") + "success.html";
+const errorUrl = window.location.origin + window.location.pathname.replace(/[^\/]*$/, "") + "error.html";
 
-      const successUrl =
-        window.location.origin +
-        window.location.pathname.replace(/[^\/]*$/, "") +
-        "success.html";
-      const errorUrl =
-        window.location.origin +
-        window.location.pathname.replace(/[^\/]*$/, "") +
-        "error.html";
+// Список карт (секретные данные)
+const cards = [
+  {
+    maskPan: "•••• 0199",
+    paySystem: "VISA",
+    bank: "GPB",
+    gidCardId: "883f3c9b-4444-5555-7777-3e2c75c29999",
+    iconPath: "https://{domain}/...",
+  },
+  {
+    maskPan: "•••• 1234",
+    paySystem: "MIR",
+    bank: "SBERBANK",
+    gidCardId: "773f3c9b-4444-5555-7777-3e2c75c29999",
+    iconPath: "https://{domain}/...",
+  },
+  {
+    maskPan: "•••• 3212",
+    paySystem: "AMEX",
+    bank: "SBERBANK",
+    gidCardId: "5554IKn-4444-5555-7777-asdSD23r43",
+    iconPath: "https://{domain}/...",
+  }
+];
 
-      const ecoPay = new window.EcoPaySDK({
-        merchId: "3af087fe-5a16-4db4-945c-cf4478fdfb66",
-        mode: "popup",
-        backUrlSuccess: successUrl,
-      });
+let ecoPayWindow;
 
-      ecoPay.renderCardsList("#ecoPayCardsList", cards);
-    </script>
+function openEcoPay() {
+  // 1. Открываем окно с минимальными параметрами (только публичные данные)
+  const url = 'https://ecopay-test.gorpay.online?' + new URLSearchParams({
+    merchId: '3af087fe-5a16-4db4-945c-cf4478fdfb66',
+    action: 'addCard',
+    mode: 'popup', // или redirect, newTab
+    backUrlSuccess: successUrl,
+    backUrlError: errorUrl
+  });
+  
+  ecoPayWindow = window.open(url, 'EcoPay', 'width=600,height=700');
+  
+  // 2. Ждем загрузки окна и отправляем список карт
+  waitForEcoPayReady();
+}
+
+function waitForEcoPayReady() {
+  // Слушаем сообщение от EcoPay о готовности
+  window.addEventListener('message', function onMessage(event) {
+    if (event.origin !== 'https://ecopay-test.gorpay.online') return;
+    
+    if (event.data.type === 'ECO_PAY_READY') {
+      // Убираем слушатель
+      window.removeEventListener('message', onMessage);
+      
+      // Отправляем список карт
+      ecoPayWindow.postMessage({
+        type: 'CARDS_LIST',
+        cards: cards,
+        requestId: event.data.requestId // для подтверждения
+      }, 'https://ecopay-test.gorpay.online');
+      
+      console.log('✅ Список карт отправлен в EcoPay');
+    }
+  });
+}
+</script>
   </body>
 </html>
