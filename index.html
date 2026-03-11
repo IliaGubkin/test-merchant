@@ -310,6 +310,13 @@
         merchId: "3af087fe-5a16-4db4-945c-cf4478fdfb66",
         mode: "popup",
         backUrlSuccess: successUrl,
+        backUrlError: errorUrl,
+        onCardClick: (gidCardId) => {
+          console.log('Выбрана карта:', gidCardId);
+          // Здесь логика мерчанта
+
+          alert(`Выбрана карта gidCardId: ${gidCardId}`)
+        }
       });
 
       ecoPay.renderCardsList("#ecoPayCardsList", cards);
