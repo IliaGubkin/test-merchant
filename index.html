@@ -287,14 +287,15 @@ const ecoPay = new window.EcoPaySDK({
   merchId: "3af087fe-5a16-4db4-945c-cf4478fdfb66",
   mode: "popup",
   backUrlSuccess: successUrl,
-  // backUrlError: errorUrl,
+  backUrlError: errorUrl,
   environment: 'preprod',
-  onCardClick: (gidCardId) => {
-    console.log("Выбрана карта:", gidCardId);
-    // Здесь логика мерчанта
+  pgaTrxId: '123abcd_id'
+  // onCardClick: (gidCardId) => {
+  //   console.log("Выбрана карта:", gidCardId);
+  //   // Здесь логика мерчанта
 
-    alert(`Выбрана карта gidCardId: ${gidCardId}`);
-  },
+  //   alert(`Выбрана карта gidCardId: ${gidCardId}`);
+  // },
 });
 
 const cardsList = document.getElementById("ecoPayCardsList");
