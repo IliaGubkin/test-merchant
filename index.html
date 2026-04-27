@@ -314,10 +314,11 @@
         // backUrlError: errorUrl,
         environment: 'test',
         pgaTrxId: '123abcd_id',
-         onEcopayReturnUrl: (url, action) => {
+         onAddCard: (orderId) => {
+           console.log('получили сообщение с фронта экопей, вот returnUrl', orderId);
+           alert('ecnm', orderId)
             setTimeout(() => {
-            console.log('получили сообщение с фронта экопей, вот returnUrl', url, action);
-            window.location.href = url; // или window.open...
+            window.location.href = 'www.google.com' +'?o.orderId=' + orderId; // или window.open...
           }, 5000)
         // Мерчант сам решает, что делать
     }
