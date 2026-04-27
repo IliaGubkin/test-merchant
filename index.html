@@ -315,10 +315,9 @@
         environment: 'test',
         pgaTrxId: '123abcd_id',
          onAddCard: (orderId) => {
-           console.log('получили сообщение с фронта экопей, вот returnUrl', orderId);
-           alert('ecnm', orderId)
+           console.log('получили сообщение с фронта экопей, вот orderId', orderId);
+           alert('получили сообщение с фронта экопей, вот orderId', orderId)
             setTimeout(() => {
-            window.location.href = 'www.google.com' +'?o.orderId=' + orderId; // или window.open...
           }, 5000)
         // Мерчант сам решает, что делать
     }
