@@ -61,7 +61,7 @@
         <div class="container" id="ecoPayButton">
           <div class="main-info__wrapper standart-border">
             <div>
-              <h1 class="main-info__title">
+              <h1 class="main-info__title" id="test-orderid">
                 Проектные решения любой сложности
               </h1>
               <p class="main-info__description">
@@ -316,9 +316,8 @@
         pgaTrxId: '123abcd_id',
          onAddCard: (orderId) => {
            console.log('получили сообщение с фронта экопей, вот orderId', orderId);
-           alert(`получили сообщение с фронта экопей, вот orderId:${orderId}`)
-            setTimeout(() => {
-          }, 5000)
+          const elem = document.getElementById('test-orderid')
+          elem.innerHTML = `o.orderId:${orderId}`;
         // Мерчант сам решает, что делать
     }
         // onCardClick: (gidCardId) => {
