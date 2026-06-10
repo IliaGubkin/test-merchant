@@ -10,9 +10,9 @@
   <link rel="stylesheet" href="./css/media.style.css" />
   <link rel="shortcut icon" href="./img/favicon.svg" type="image/x-icon" />
   <title>Мерчант</title>
-  <script src="https://ecopay-test.gorpay.online/sdk/eco-pay-sdk.js"></script>
+  <!-- <script src="https://ecopay-test.gorpay.online/sdk/eco-pay-sdk.js"></script> -->
   <!-- <script src="./node_modules/sdk-ecopay/dist/eco-pay-sdk.js"></script> -->
-  <!-- <script src="./eco-pay-sdk.js"></script> -->
+  <script src="./eco-pay-sdk.js"></script>
 </head>
 
 <body>
@@ -293,6 +293,7 @@
       backUrlError: errorUrl,
       environment: 'test',
       pgaTrxId: '123abcd_id',
+      skipResultScreen: true,
       // onAddCard: (orderId) => {
       //   console.log('Получен orderId', orderId);
       //   // 'Получен orderId', "123orderIdExample"
@@ -301,14 +302,14 @@
       //   console.log('Выбрана карта:', ecoCardId, 'Получено событие:', e.currentTarget);
       //   // Выбрана карта:', "773f3c9b-4444-5555-7777-3e2c75c29911", 'Получено событие:', <div class="eco-pay-card">...</div>
       // },
-      onCardAdded: (success) => {
-        console.log('Получен результат добавления карты:', success)
-        // 'Получен результат добавления карты:', false
-      },
-      onCardDeleted: (success) => {
-        console.log('Получен результат удаления карты:', success)
-        // 'Получен результат удаления карты:', true
-      }
+      // onCardAdded: (success) => {
+      //   console.log('Получен результат добавления карты:', success)
+      //   // 'Получен результат добавления карты:', false
+      // },
+      // onCardDeleted: (success) => {
+      //   console.log('Получен результат удаления карты:', success)
+      //   // 'Получен результат удаления карты:', true
+      // }
 
     });
 
